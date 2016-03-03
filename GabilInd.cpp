@@ -53,6 +53,7 @@ class Individual {
     Individual(vector<int> rs, int size) {
         ruleSet = rs;
         setSize = size;
+        fitness = -1;
     }
 
     //******************* FUNCTIONS ***********************//
@@ -64,6 +65,43 @@ class Individual {
             } 
         }
     }
+
+    //Returns the evaluation of a set
+    int evaluate(vector<int> set, vector<int> rs) {
+        int i = 0;  //iterate over the ruleSet
+        int k = 0;  //iterate over the to-compare-set
+        int t = 0;  //final evaluation
+        int ruleSS = ruleSet.size();
+        int j = 0;  //iterate over the size of each rule attribute
+        while (i < ruleSS) {
+            int j1 = rs.at(j);
+            if (j1 == -1) { //Reached the end of the instructions
+                return (set.at(k) == ruleSet.at(i) ? 0 : 1); //Compare and return the value 
+            }
+
+            t = 1;
+            while (j1 > 0) {
+                if (ruleSet.at(i) == 1 && set.at(k) == 1){
+                    j++;
+                    k += j;
+                    i += j;
+                    t = 0;
+                    break;  //Found a matching pattern, move on to the next segment
+                }
+                j1--;
+                i++;
+                k++;
+            }
+            if (t == 1) {   //This rule doesnt have a matching pattern, move on to the next one
+                k = 0;
+                j = 0;
+                i += setSize - i%setSize;
+            }
+            
+        }
+        return 2;   //error bias because it couldnt find a matching pattern
+    }
+
 
     //Defines a lower bound for an individual's rule set
     //This value goes between 0 and the ruleSet size - 1,
@@ -115,12 +153,12 @@ float randomF() {
 }
 
 
-int main() {
+/*int main() {
 
     srand(time(NULL));
     
     int s = 4;
     int a = 3;
     Individual i(s);
-}
+}*/
 

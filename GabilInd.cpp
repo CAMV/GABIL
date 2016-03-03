@@ -56,6 +56,11 @@ class Individual {
         fitness = -1;
     }
 
+    //*************** OVERRIDE OPERATORS ******************//
+    bool operator < (const Individual& i) const {
+        return (fitness < i.fitness);
+    }
+
     //******************* FUNCTIONS ***********************//
     void mutate() {
         for (int i = 0; i < ruleSet.size(); i++) {
@@ -83,8 +88,8 @@ class Individual {
             while (j1 > 0) {
                 if (ruleSet.at(i) == 1 && set.at(k) == 1){
                     j++;
-                    k += j;
-                    i += j;
+                    k += j1;
+                    i += j1;
                     t = 0;
                     break;  //Found a matching pattern, move on to the next segment
                 }
@@ -100,6 +105,17 @@ class Individual {
             
         }
         return 2;   //error bias because it couldnt find a matching pattern
+    }
+
+    void getFitness(vector<vector<int> > rules, vector<int> attrSize) {
+        float k = 0;
+        float i = 0;
+        for (vector<vector<int> >::iterator it = rules.begin(); it < rules.end(); it++) {
+            k += (float) evaluate(*it, attrSize);
+            i++;
+        }
+        fitness = k/i;
+        return;
     }
 
 

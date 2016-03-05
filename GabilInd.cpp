@@ -176,7 +176,7 @@ class Individual {
 };
 
 float randomF() {
-    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    return static_cast <float> (rand()) / static_cast <float> (RAND_MAX+1);
 }
 
 

@@ -84,7 +84,7 @@ class Population {
             rs1.push_back(i1.ruleSet.at(k));
         }
         int s1 = rs1.size();
-        Individual son1(rs1, s1);
+        Individual son1(rs1, i1.setSize);
 
         vector<int>rs2;     //second new ruleset
         for (int k = 0; k < l2; k ++) {
@@ -97,7 +97,7 @@ class Population {
             rs2.push_back(i2.ruleSet.at(k));
         }
         int s2 = rs2.size();
-        Individual son2(rs2,s2);
+        Individual son2(rs2,i2.setSize);
 
 
         vector<Individual> sons;
@@ -250,7 +250,10 @@ int main() {
     cout << estequetaki.bigWeight << endl;
 
 
-    for (int i = 0; i < 100; i ++) {
+    for (int i = 0; i < 50; i ++) {
+        cout << "iteracion : " << i << ", BW: " << estequetaki.bigWeight << ", UBW: " 
+            << estequetaki.bigUnfitWeight << endl;
+        cout << "pop size: " << estequetaki.pop.size();
         estequetaki.newGen(0,0);
     }
 

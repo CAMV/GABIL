@@ -29,7 +29,10 @@ class Individual {
   public:
     vector<int> ruleSet;
     int setSize;
-    float fitness;
+    float fitness;  //How good is it
+    float fitWeight;
+    float unFitness;//How bad is it
+    float unFitWeight;
 
     //****************** CONSTRUCTORS ********************//
     
@@ -58,7 +61,7 @@ class Individual {
 
     //*************** OVERRIDE OPERATORS ******************//
     bool operator < (const Individual& i) const {
-        return (fitness < i.fitness);
+        return (fitness > i.fitness);
     }
 
     //******************* FUNCTIONS ***********************//
@@ -81,7 +84,7 @@ class Individual {
         while (i < ruleSS) {
             int j1 = rs.at(j);
             if (j1 == -1) { //Reached the end of the instructions
-                return (set.at(k) == ruleSet.at(i) ? 0 : 1); //Compare and return the value 
+                return (set.at(k) == ruleSet.at(i) ? 1 : 0); //Compare and return the value 
             }
 
             t = 1;
@@ -104,7 +107,7 @@ class Individual {
             }
             
         }
-        return 2;   //error bias because it couldnt find a matching pattern
+        return 0;   //error bias because it couldnt find a matching pattern
     }
 
     void getFitness(vector<vector<int> > rules, vector<int> attrSize) {
@@ -115,6 +118,7 @@ class Individual {
             i++;
         }
         fitness = k/i;
+        unFitness = 1-fitness;
         return;
     }
 
@@ -157,8 +161,15 @@ class Individual {
     int upperBoundT(int lowk, int highk, int lb) {
         int rules = ruleSet.size()/setSize;
         int range = highk - lowk;
-        return int (floor(randomF()*(rules-floor(lb/setSize)-floor((range)/setSize))) 
+
+        int hb = lb;
+        int poss = rules-floor(lb/setSize);
+        return (int) (floor(randomF()*(rules-floor(lb/setSize)-floor((range)/setSize)-1))
                 * setSize + lb+range);  //Bruh
+                
+        
+        //return (int) (floor(randomF()*(rules-floor(lb/setSize) - floor(range)))
+        //        * setSize + lb+range);  //Bruh
     }
 
 

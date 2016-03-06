@@ -63,15 +63,14 @@ class Population {
     }
 
     vector<Individual> crossover(Individual i1, Individual i2) {
-        //Individual son1;
-        //Individual son2;
-       // cout << "dafuk" << endl;
         int l1 = i1.lowerBound();
         int h1 = i1.upperBound(l1);
         int l2 = i2.lowerBoundT(l1, h1);
         int h2 = i2.upperBoundT(l1, h1, l2);
 
-       // cout << "baaa" << endl;
+        //cout << "bounds:" << endl;
+        //cout << l1 << " " << h1 << " " << l2 << " " << h2 << endl;
+        //cout << "sizes: " << i1.ruleSet.size() << " " << i2.ruleSet.size() << endl;
 
         vector<int> rs1;    //first new ruleset
         for (int k = 0; k < l1; k++) {
@@ -99,6 +98,8 @@ class Population {
         int s2 = rs2.size();
         Individual son2(rs2,i2.setSize);
 
+        //cout << "created" << endl;
+
 
         vector<Individual> sons;
         sons.push_back(son1);
@@ -113,10 +114,11 @@ class Population {
         int k = (int) pop.size()*OFFSPRING_AMOUNT;     //amount of the pop that will yield offspring
         while ( k > 0) {
             //Parent Selection
+            //cout << "SELECTING PARENTS" << endl;
             vector<Individual>::iterator it = pop.begin(); //first parent
-            vector<Individual>::iterator it2 = pop.begin(); //first parent
-            float r1 = randomF()*(bigWeight); //offset so it can pick the first individual
-            float r2 = randomF()*(bigWeight); //offset so it can pick the first infividual
+            vector<Individual>::iterator it2 = pop.begin(); //second parent
+            float r1 = randomF()*(bigWeight); 
+            float r2 = randomF()*(bigWeight); 
             //cout << r1 << endl;
             //cout << r2 << endl;
             //cout << bigWeight << endl;
@@ -138,6 +140,7 @@ class Population {
 
             vector<Individual> i;
             //Crossover
+            //cout << "crossing over" << endl;
             if (it->ruleSet.size() < it2->ruleSet.size()) {
                 //cout << "wat" << endl;
                 i = crossover(*it, *it2);
@@ -149,6 +152,7 @@ class Population {
 
 
             //Mutation
+            //cout << "mutating" << endl; 
             i.at(0).mutate();
             i.at(1).mutate();
 
@@ -158,6 +162,53 @@ class Population {
             k--;
         }
 
+        return newGene;
+    }
+
+    vector<Individual> tournamentCrossover() {
+    
+        int k = pop.size()*OFFSPRING_AMOUNT;
+        vector<Individual> newGene;
+        for (int i = 0; i < k; i++) {
+            //get First parent
+            Individual p1;
+            p1 = pop.at((int) floor(randomF()*pop.size()));   //set an initial
+            for (int j = 0; j < k/2 - 1; j++) {
+                int r = (int) floor(randomF()*pop.size());
+                if (p1.fitness < pop.at(r).fitness) {   //compare to new ones
+                    p1 = pop.at(r);
+                }
+            }
+            
+            //get Second parent
+            Individual p2;
+            p2 = pop.at((int) floor(randomF()*pop.size()));   //set an initial
+            for (int j = 0; j < k/2 - 1; j++) {
+                int r = (int) floor(randomF()*pop.size());
+                if (p2.fitness < pop.at(r).fitness) {       //compare to new ones
+                    p2 = pop.at(r);
+                }
+            }
+            vector<Individual> newi;
+            //crossover
+            if (p1.ruleSet.size() < p2.ruleSet.size()) {
+                newi = crossover(p1,p2);
+            }
+
+            else {
+                newi = crossover(p2,p1);
+            }
+        
+            //mutation
+            newi.at(0).mutate();
+            newi.at(1).mutate();
+            
+            //addition
+            newGene.push_back(newi.at(0));
+            newGene.push_back(newi.at(1));
+
+        }
+        
         return newGene;
     }
 
@@ -172,6 +223,23 @@ class Population {
             pop.erase(it);
             setBigWeight();
         }
+        return;
+    }
+
+    void tournamentSelection() {
+        int toDel = pop.size() - ORIGINAL_SIZE;
+        for (int k = 0; k < toDel; k++) {
+            int i = (int) floor(randomF()*pop.size());
+            for (int j = 0; j < 20; j++) {
+                int r = (int) floor(randomF()*pop.size());
+                if (pop.at(i).fitness > pop.at(r).fitness) {
+                    i = r;
+                }
+            }
+            pop.erase(pop.begin() + i);
+        }
+        setBigWeight();
+        return;   
     }
 
     //Creates the new generation, based on crossover and mutation attributes.
@@ -183,7 +251,8 @@ class Population {
             newGene = rouletteCrossover();
         }
         if (i == 1) {
-            //Tournament method
+
+            newGene = tournamentCrossover();
         }
 
         //cout << "crossed" << endl;
@@ -202,7 +271,7 @@ class Population {
             rouletteSelection();
         }
         if (j == 1) {
-            //tournamente method
+            tournamentSelection();
         }
         fitOut();
     }
@@ -250,11 +319,12 @@ int main() {
     cout << estequetaki.bigWeight << endl;
 
 
-    for (int i = 0; i < 50; i ++) {
+    for (int i = 0; i < 1000; i ++) {
         cout << "iteracion : " << i << ", BW: " << estequetaki.bigWeight << ", UBW: " 
             << estequetaki.bigUnfitWeight << endl;
-        cout << "pop size: " << estequetaki.pop.size();
-        estequetaki.newGen(0,0);
+        cout << "pop size: " << estequetaki.pop.size() << ", ruleSize: " 
+            << estequetaki.pop.at(199).setSize << endl;
+        estequetaki.newGen(1,1);
     }
 
     cout << estequetaki.bigWeight << endl;

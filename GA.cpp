@@ -648,7 +648,7 @@ int main() {
     std::cout << '\n';
 
 
-    int ruleSize = 16; // the size of each rule, including the classification
+    int ruleSize = 69; // the size of each rule, including the classification
 
     // Vector with the rules Sizes
     vector<int> attrS;

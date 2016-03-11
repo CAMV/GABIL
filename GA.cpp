@@ -599,11 +599,11 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 7;
                     }
                     break;
-                default:
-                    if (line.compare("+") == 0) {
+                case 16:
+                    if (line.compare("+\n") == 0) {
                         value = 1;
                     }
-                    else if (line.compare("-") == 0) {
+                    else if (line.compare("-\n") == 0) {
                         value = 0;
                     }
                     
@@ -613,20 +613,10 @@ vector< vector<int> > readTrainingSet(string fileName) {
 
             train.push_back(value);
                  
-            if (aPos >= 15) {
+            if (aPos > 15) {
                 aPos = 1;
-                getline(file, line, ',');
-                if (line.compare("+\n") == 0) {
-                    value = 1;
-                }
-                else if (line.compare("-\n") == 0) {
-                    value = 0;
-                }
-                train.push_back(value);
-                
                 data.push_back(train);
                 train.clear();
-            
             }else{
                aPos++;
             }
@@ -664,7 +654,7 @@ int main() {
     std::cout << '\n';
 
 
-    int ruleSize = 1000;//69; // the size of each rule, including the classification
+    int ruleSize = 69;//69; // the size of each rule, including the classification
 
     // Vector with the rules Sizes
     vector<int> attrS;

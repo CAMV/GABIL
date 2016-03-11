@@ -292,8 +292,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
     if (file.is_open()) {
         int aPos = 1;
         while (getline(file, line, ',')) {
-            //cout << aPos << " " << line << "\n";
+            //cout << "|"<<line <<"|"<< aPos <<  "\n";
             switch (aPos) {
+             
                 case 1:
                     if (line.compare("a") == 0) {
                         value = 1;
@@ -302,11 +303,10 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 2;
                     }
                     else {
-                        value = 3;
+                        value = 0;
                     }
                     break;
                 case 2:
-                //cout << line <<"HERE";
                     if (line.compare("?") != 0){
                         
                         f = stof(line);
@@ -334,7 +334,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     else 
                     {
-                        value = 127;
+                        value = 0;
                     }
                     break;
                 case 3:
@@ -358,7 +358,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     else 
                     {
-                        value = 31;
+                        value = 0;
                     }
                     break;
                 case 4:
@@ -375,7 +375,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 8;
                     }
                     else {
-                        value = 15;
+                        value = 0;
                     }
                     break;
                 case 5:
@@ -389,7 +389,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 4;
                     }
                     else {
-                        value = 7;
+                        value = 0;
                     }
                     break;
                 case 6:
@@ -436,7 +436,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 8192;
                     }
                     else {
-                        value = 16383;
+                        value = 0;
                     }
                     break;
                 case 7:
@@ -468,7 +468,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 256;
                     }
                     else {
-                        value = 511;
+                        value = 0;
                     }
                     break;
                 case 8:
@@ -489,7 +489,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     else
                     {
-                        value = 15;
+                        value = 0;
                     }
                     break;
                 case 9:
@@ -500,8 +500,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 2;
                     }
                     else {
-                        float
-                                value = 3;
+                        value = 0;
                     }
                     break;
                 case 10:
@@ -512,7 +511,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 2;
                     }
                     else {
-                        value = 3;
+                        value = 0;
                     }
                     break;
                 case 11:
@@ -530,7 +529,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     else
                     {
-                        value = 7;
+                        value = 0;
                     }
                     break;
                 case 12:
@@ -541,7 +540,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 2;
                     }
                     else {
-                        value = 3;
+                        value = 0;
                     }
                     break;
                 case 13:
@@ -555,7 +554,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 4;
                     }
                     else {
-                        value = 7;
+                        value = 0;
                     }
                     break;
                 case 14:
@@ -579,7 +578,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     else
                     {
-                        value = 31;
+                        value = 0;
                     }
                     break;
                 case 15:
@@ -592,7 +591,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                             value = 2;
                         }
                         else if (f >= 200) {
-                            value = 4;
+                            value = 0;
                         }
                     }
                     else 
@@ -600,20 +599,36 @@ vector< vector<int> > readTrainingSet(string fileName) {
                         value = 7;
                     }
                     break;
-                case 16:
+                default:
                     if (line.compare("+") == 0) {
                         value = 1;
                     }
                     else if (line.compare("-") == 0) {
                         value = 0;
                     }
+                    
                     break;
             }
+            
+
             train.push_back(value);
-            aPos++;
-            if (aPos >= 16) {
+                 
+            if (aPos >= 15) {
                 aPos = 1;
+                getline(file, line, ',');
+                if (line.compare("+\n") == 0) {
+                    value = 1;
+                }
+                else if (line.compare("-\n") == 0) {
+                    value = 0;
+                }
+                train.push_back(value);
+                
                 data.push_back(train);
+                train.clear();
+            
+            }else{
+               aPos++;
             }
 
         }
@@ -621,6 +636,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
 
     }
             file.close();
+            
     return data;
 }
 
@@ -648,7 +664,7 @@ int main() {
     std::cout << '\n';
 
 
-    int ruleSize = 69; // the size of each rule, including the classification
+    int ruleSize = 1000;//69; // the size of each rule, including the classification
 
     // Vector with the rules Sizes
     vector<int> attrS;

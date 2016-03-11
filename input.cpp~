@@ -1,0 +1,32 @@
+#include <iostream>
+#include <math.h>
+#include <stdlib.h>
+#include <cstdlib>
+#include <algorithm>
+#include <vector>
+#include <fstream>
+#include <time.h> //Used for random operator power
+#include "GabilInd.cpp"
+
+void readTrainingSet(string fileName){
+
+    vector<vector<int> > data;  //Training Set
+
+    string line;
+
+    ifstream file (fileName);
+    if (file.is_open())
+    {
+        while (getline(file, line, ','))
+        {
+            cout << line << '\n';
+        }
+        file.close();
+    }
+
+}
+
+int main() {
+
+    readTrainingSet("Datos.txt");
+}

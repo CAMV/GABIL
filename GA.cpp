@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <vector>
+#include <string>
 #include <fstream>
 #include <time.h> //Used for random operator power
 #include "GabilInd.cpp"
@@ -291,13 +292,13 @@ vector< vector<int> > readTrainingSet(string fileName) {
     if (file.is_open()) {
         int aPos = 1;
         while (getline(file, line, ',')) {
-            aPos++;
+            //cout << aPos << " " << line << "\n";
             switch (aPos) {
                 case 1:
-                    if (line == "a") {
+                    if (line.compare("a") == 0) {
                         value = 1;
                     }
-                    else if (line == "b") {
+                    else if (line.compare("b") == 0) {
                         value = 2;
                     }
                     else {
@@ -305,64 +306,72 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 2:
-                    f = stof(line);
-                    if (f < 20) {
-                        value = 1;
+                //cout << line <<"HERE";
+                    if (line.compare("?") != 0){
+                        
+                        f = stof(line);
+                        if (f < 20) {
+                            value = 1;
+                        }
+                        else if (f >= 20 && f < 25) {
+                            value = 2;
+                        }
+                        else if (f >= 25 && f < 35) {
+                            value = 4;
+                        }
+                        else if (f >= 35 && f < 40) {
+                            value = 8;
+                        }
+                        else if (f >= 40 && f < 50) {
+                            value = 16;
+                        }
+                        else if (f >= 50 && f < 60) {
+                            value = 32;
+                        }
+                        else if (f >= 60) {
+                            value = 64;
+                        }
                     }
-                    else if (f >= 20 && f < 25) {
-                        value = 2;
-                    }
-                    else if (f >= 25 && f < 35) {
-                        value = 4;
-                    }
-                    else if (f >= 35 && f < 40) {
-                        value = 8;
-                    }
-                    else if (f >= 40 && f < 50) {
-                        value = 16;
-                    }
-                    else if (f >= 50 && f < 60) {
-                        value = 32;
-                    }
-                    else if (f >= 60) {
-                        value = 64;
-                    }
-                    else {
+                    else 
+                    {
                         value = 127;
                     }
                     break;
                 case 3:
-                    f = stof(line);
-                    if (f < 20) {
-                        value = 1;
+                    if (line.compare("?") != 0){
+                        f = stof(line);
+                        if (f < 20) {
+                            value = 1;
+                        }
+                        else if (f >= 0 && f < 4) {
+                            value = 2;
+                        }
+                        else if (f >= 4 && f < 8) {
+                            value = 4;
+                        }
+                        else if (f >= 8 && f < 12) {
+                            value = 8;
+                        }
+                        else if (f >= 12) {
+                            value = 16;
+                        }
                     }
-                    else if (f >= 0 && f < 4) {
-                        value = 2;
-                    }
-                    else if (f >= 4 && f < 8) {
-                        value = 4;
-                    }
-                    else if (f >= 8 && f < 12) {
-                        value = 8;
-                    }
-                    else if (f >= 12) {
-                        value = 16;
-                    }
-                    else {
+                    else 
+                    {
                         value = 31;
                     }
                     break;
                 case 4:
-                    if (line == "u") {
+                    if (line.compare("u") == 0) {
                         value = 1;
                     }
-                    else if (line == "y") {
+                    else if (line.compare("y") == 0) {
                         value = 2;
                     }
-                    else if (line == "l") {
+                    else if (line.compare("l") == 0) {
                         value = 4;
                     }
-                    else if (line == "t") {
+                    else if (line.compare("t") == 0) {
                         value = 8;
                     }
                     else {
@@ -370,13 +379,13 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 5:
-                    if (line == "g") {
+                    if (line.compare("g") == 0) {
                         value = 1;
                     }
-                    else if (line == "p") {
+                    else if (line.compare("p") == 0) {
                         value = 2;
                     }
-                    else if (line == "gg") {
+                    else if (line.compare("gg") == 0){
                         value = 4;
                     }
                     else {
@@ -384,46 +393,46 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 6:
-                    if (line == "c") {
+                    if (line.compare("c") == 0) {
                         value = 1;
                     }
-                    else if (line == "d") {
+                    else if (line.compare("d")== 0) {
                         value = 2;
                     }
-                    else if (line == "cc") {
+                    else if (line.compare("cc") == 0){
                         value = 4;
                     }
-                    else if (line == "i") {
+                    else if (line.compare("i") == 0){
                         value = 8;
                     }
-                    else if (line == "j") {
+                    else if (line.compare("j") == 0){
                         value = 16;
                     }
-                    else if (line == "k") {
+                    else if (line.compare("k") == 0){
                         value = 32;
                     }
-                    else if (line == "m") {
+                    else if (line.compare("m") == 0){
                         value = 64;
                     }
-                    else if (line == "r") {
+                    else if (line.compare("r") == 0){
                         value = 128;
                     }
-                    else if (line == "q") {
+                    else if (line.compare("q") == 0){
                         value = 256;
                     }
-                    else if (line == "w") {
+                    else if (line.compare("w") == 0){
                         value = 512;
                     }
-                    else if (line == "x") {
+                    else if (line.compare("x") == 0){
                         value = 1024;
                     }
-                    else if (line == "e") {
+                    else if (line.compare("e") == 0){
                         value = 2048;
                     }
-                    else if (line == "aa") {
+                    else if (line.compare("aa") == 0){
                         value = 4096;
                     }
-                    else if (line == "ff") {
+                    else if (line.compare("ff") == 0){
                         value = 8192;
                     }
                     else {
@@ -431,31 +440,31 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 7:
-                    if (line == "v") {
+                    if (line.compare("v") == 0){
                         value = 1;
                     }
-                    else if (line == "h") {
+                    else if (line.compare("h") == 0) {
                         value = 2;
                     }
-                    else if (line == "bb") {
+                    else if (line.compare("bb") == 0){
                         value = 4;
                     }
-                    else if (line == "j") {
+                    else if (line.compare("j") == 0) {
                         value = 8;
                     }
-                    else if (line == "n") {
+                    else if (line.compare("n") == 0) {
                         value = 16;
                     }
-                    else if (line == "z") {
+                    else if (line.compare("z") == 0) {
                         value = 32;
                     }
-                    else if (line == "dd") {
+                    else if (line.compare("dd") == 0) {
                         value = 64;
                     }
-                    else if (line == "ff") {
+                    else if (line.compare("ff") == 0) {
                         value = 128;
                     }
-                    else if (line == "oo") {
+                    else if (line.compare("oo") == 0) {
                         value = 256;
                     }
                     else {
@@ -463,28 +472,31 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 8:
-                    f = stof(line);
-                    if (f <= 0) {
-                        value = 1;
+                    if (line.compare("?") != 0){
+                        f = stof(line);
+                        if (f <= 0) {
+                            value = 1;
+                        }
+                        else if (f > 0 && f <= 2) {
+                            value = 2;
+                        }
+                        else if (f > 2 && f <= 10) {
+                            value = 4;
+                        }
+                        else if (f > 10) {
+                            value = 8;
+                        }
                     }
-                    else if (f > 0 && f <= 2) {
-                        value = 2;
-                    }
-                    else if (f > 2 && f <= 10) {
-                        value = 4;
-                    }
-                    else if (f > 10) {
-                        value = 8;
-                    }
-                    else {
+                    else
+                    {
                         value = 15;
                     }
                     break;
                 case 9:
-                    if (line == "t") {
+                    if (line.compare("t") == 0) {
                         value = 1;
                     }
-                    else if (line == "f") {
+                    else if (line.compare("f") == 0) {
                         value = 2;
                     }
                     else {
@@ -493,10 +505,10 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 10:
-                    if (line == "t") {
+                    if (line.compare("t") == 0) {
                         value = 1;
                     }
-                    else if (line == "f") {
+                    else if (line.compare("f") == 0) {
                         value = 2;
                     }
                     else {
@@ -504,25 +516,28 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 11:
-                    f = stof(line);
-                    if (f >= 0 && f < 1) {
-                        value = 1;
+                    if (line.compare("?") != 0){
+                        f = stof(line);
+                        if (f >= 0 && f < 1) {
+                            value = 1;
+                        }
+                        else if (f >= 1 && f < 3) {
+                            value = 2;
+                        }
+                        else if (f >= 3) {
+                            value = 4;
+                        }
                     }
-                    else if (f >= 1 && f < 3) {
-                        value = 2;
-                    }
-                    else if (f >= 3) {
-                        value = 4;
-                    }
-                    else {
+                    else
+                    {
                         value = 7;
                     }
                     break;
                 case 12:
-                    if (line == "t") {
+                    if (line.compare("t") == 0) {
                         value = 1;
                     }
-                    else if (line == "f") {
+                    else if (line.compare("f") == 0) {
                         value = 2;
                     }
                     else {
@@ -530,13 +545,13 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 13:
-                    if (line == "g") {
+                    if (line.compare("g") == 0){
                         value = 1;
                     }
-                    else if (line == "p") {
+                    else if (line.compare("p") == 0) {
                         value = 2;
                     }
-                    else if (line == "s") {
+                    else if (line.compare("s") == 0) {
                         value = 4;
                     }
                     else {
@@ -544,63 +559,68 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 14:
-                    f = stof(line);
-                    if (f >= 0 && f < 100) {
-                        value = 1;
+                    if (line.compare("?") != 0){
+                        f = stof(line);
+                        if (f >= 0 && f < 100) {
+                            value = 1;
+                        }
+                        else if (f >= 100 && f < 200) {
+                            value = 2;
+                        }
+                        else if (f >= 200 && f < 300) {
+                            value = 4;
+                        }
+                        else if (f >= 300 && f < 500) {
+                            value = 8;
+                        }
+                        else if (f >= 500) {
+                            value = 16;
+                        }
                     }
-                    else if (f >= 100 && f < 200) {
-                        value = 2;
-                    }
-                    else if (f >= 200 && f < 300) {
-                        value = 4;
-                    }
-                    else if (f >= 300 && f < 500) {
-                        value = 8;
-                    }
-                    else if (f >= 500) {
-                        value = 16;
-                    }
-                    else {
+                    else
+                    {
                         value = 31;
                     }
                     break;
                 case 15:
-                    f = stof(line);
-                    if (f >= 0 && f < 3) {
-                        value = 1;
+                    if (line.compare("?") != 0){
+                        f = stof(line);
+                        if (f >= 0 && f < 3) {
+                            value = 1;
+                        }
+                        else if (f >= 3 && f < 200) {
+                            value = 2;
+                        }
+                        else if (f >= 200) {
+                            value = 4;
+                        }
                     }
-                    else if (f >= 3 && f < 200) {
-                        value = 2;
-                    }
-                    else if (f >= 200) {
-                        value = 4;
-                    }
-                    else {
+                    else 
+                    {
                         value = 7;
                     }
                     break;
                 case 16:
-                    if (line == "+") {
+                    if (line.compare("+") == 0) {
                         value = 1;
                     }
-                    else if (line == "-") {
+                    else if (line.compare("-") == 0) {
                         value = 0;
                     }
                     break;
             }
             train.push_back(value);
+            aPos++;
             if (aPos >= 16) {
                 aPos = 1;
                 data.push_back(train);
             }
-            else {
-                aPos++;
-            }
 
-            file.close();
         }
 
+
     }
+            file.close();
     return data;
 }
 
@@ -648,8 +668,6 @@ int main() {
     attrS.push_back(5);
     attrS.push_back(3);
     attrS.push_back(-1);
-
-
 
     vector<Individual> pops;
     for (int i = 0; i < ORIGINAL_SIZE; i++) {

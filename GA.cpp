@@ -291,11 +291,13 @@ vector< vector<int> > readTrainingSet(string fileName) {
 
     if (file.is_open()) {
         int aPos = 1;
+        int rs;
         while (getline(file, line, ',')) {
             //cout << "|"<<line <<"|"<< aPos <<  "\n";
             switch (aPos) {
              
                 case 1:
+                    rs=2;
                     if (line.compare("a") == 0) {
                         value = 1;
                     }
@@ -307,9 +309,10 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 2:
+                    rs=7;
                     if (line.compare("?") != 0){
                         
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f < 20) {
                             value = 1;
                         }
@@ -338,8 +341,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 3:
+                    rs=5;
                     if (line.compare("?") != 0){
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f < 20) {
                             value = 1;
                         }
@@ -362,6 +366,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 4:
+                    rs=4;
                     if (line.compare("u") == 0) {
                         value = 1;
                     }
@@ -379,6 +384,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 5:
+                    rs=3;
                     if (line.compare("g") == 0) {
                         value = 1;
                     }
@@ -393,6 +399,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 6:
+                    rs=14;
                     if (line.compare("c") == 0) {
                         value = 1;
                     }
@@ -440,6 +447,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 7:
+                    rs=9;
                     if (line.compare("v") == 0){
                         value = 1;
                     }
@@ -472,8 +480,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 8:
+                    rs=4;
                     if (line.compare("?") != 0){
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f <= 0) {
                             value = 1;
                         }
@@ -493,6 +502,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 9:
+                    rs=2;
                     if (line.compare("t") == 0) {
                         value = 1;
                     }
@@ -504,6 +514,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 10:
+                    rs=2;
                     if (line.compare("t") == 0) {
                         value = 1;
                     }
@@ -515,8 +526,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 11:
+                    rs=3;
                     if (line.compare("?") != 0){
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f >= 0 && f < 1) {
                             value = 1;
                         }
@@ -533,6 +545,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 12:
+                    rs=2;
                     if (line.compare("t") == 0) {
                         value = 1;
                     }
@@ -544,6 +557,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 13:
+                    rs=3;
                     if (line.compare("g") == 0){
                         value = 1;
                     }
@@ -558,8 +572,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 14:
+                    rs=5;
                     if (line.compare("?") != 0){
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f >= 0 && f < 100) {
                             value = 1;
                         }
@@ -582,8 +597,9 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 15:
+                    rs=3;
                     if (line.compare("?") != 0){
-                        f = stof(line);
+                        f = atof(line.c_str());
                         if (f >= 0 && f < 3) {
                             value = 1;
                         }
@@ -600,6 +616,7 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     }
                     break;
                 case 16:
+                    rs=1;
                     if (line.compare("+\n") == 0) {
                         value = 1;
                     }
@@ -609,9 +626,27 @@ vector< vector<int> > readTrainingSet(string fileName) {
                     
                     break;
             }
+
+            vector<int> vs(rs, 0);
+            int k = 0;
+            int valueDum = value;
+            if (value!=0) {
+                k = 0;
+                while (valueDum > 1) {
+                    valueDum /= 2;
+                    k++;
+                } 
+                vs.at(k) = 1;
+            }
+            for (int s = 0; s < vs.size(); s++) {
+                //cout << vs.at(s) << ","; 
+                train.push_back(vs.at(s));
+                //cout << aPos << endl;
+                //cout << value << ",";
+            }
             
 
-            train.push_back(value);
+            //train.push_back(value);
                  
             if (aPos > 15) {
                 aPos = 1;
@@ -635,6 +670,15 @@ int main() {
 
     // Train Set from file
     vector< vector<int> > data =  readTrainingSet("Datos");
+
+
+   /*for (int i = 0; i < data.size(); i ++) {
+        for (int j = 0; j < data.at(i).size() ; j++){
+                
+            cout << data.at(i).at(j) << ",";
+        }
+        cout << endl;
+    }*/
 
     vector< vector<int> > trainSet, testSet;
 

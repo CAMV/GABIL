@@ -610,6 +610,24 @@ int main() {
     // Train Set from file
     vector< vector<int> > data =  readTrainingSet("Datos");
 
+    vector< vector<int> > trainSet, testSet;
+
+    for (vector< vector<int> >::iterator it = data.begin(); it != data.end(); ++it)
+    {
+        int probabilidad = rand() % 10 + 1;
+        if (probabilidad > 7){
+            testSet.push_back(*it);
+        }
+        else
+        {
+            trainSet.push_back(*it);
+        }
+
+    }
+
+    std::cout << '\n';
+
+
     int ruleSize = 16; // the size of each rule, including the classification
 
     // Vector with the rules Sizes
@@ -639,7 +657,7 @@ int main() {
     }
 
 
-    Population gaStructure(pops, data, attrS);        //Palabra aguda
+    Population gaStructure(pops, trainSet, attrS);        //Palabra aguda
 
     gaStructure.fitOut();
     int i = 0;
